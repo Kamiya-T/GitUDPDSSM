@@ -68,11 +68,9 @@ samples/Cpp_Sample/.deps/ssmWriteSample.Po
 samples/Cpp_Sample/.libs/ssmReadSample
 samples/Cpp_Sample/.libs/ssmWriteSample
 src/Makefile
-src/ssm-coordinator
 src/.deps/libssm_la-libssm-shm.Plo
 src/.deps/libssm_la-libssm-time.Plo
 src/.deps/libssm_la-libssm.Plo
-src/.deps/ssm_coordinator-ssm-coordinator.Po
 utilities/lsssm
 utilities/Makefile
 utilities/read_proxy_test
@@ -126,5 +124,4 @@ samples/Makefile.in
 samples/C_Sample/Makefile.in
 samples/Cpp_Sample/Makefile.in
 src/Makefile.in
-src/.libs/ssm-coordinator
 utilities/Makefile.in
