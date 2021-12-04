@@ -37,7 +37,6 @@
 *.a
 *.o
 /#*
-utilities/.libs/
 config.log
 config.status
 libtool
@@ -61,12 +60,6 @@ samples/C_Sample/.deps/SensorAHandler.Po
 samples/C_Sample/.deps/SensorAIntervalRead.Po
 samples/C_Sample/.deps/SensorAPastRead.Po
 samples/C_Sample/.deps/SensorBHandler.Po
-samples/C_Sample/.libs/SensorABSync
-samples/C_Sample/.libs/SensorAContinualRead
-samples/C_Sample/.libs/SensorAHandler
-samples/C_Sample/.libs/SensorAIntervalRead
-samples/C_Sample/.libs/SensorAPastRead
-samples/C_Sample/.libs/SensorBHandler
 samples/Cpp_Sample/Makefile
 samples/Cpp_Sample/ssmReadSample
 samples/Cpp_Sample/ssmWriteSample
@@ -80,7 +73,6 @@ src/.deps/libssm_la-libssm-shm.Plo
 src/.deps/libssm_la-libssm-time.Plo
 src/.deps/libssm_la-libssm.Plo
 src/.deps/ssm_coordinator-ssm-coordinator.Po
-src/.libs/ssm-coordinator
 utilities/lsssm
 utilities/Makefile
 utilities/read_proxy_test
