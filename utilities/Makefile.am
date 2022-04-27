@@ -49,6 +49,12 @@ write_proxy_test_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=6
 write_proxy_test_CXXFLAGS = $(write_proxy_test_CFLAGS)
 write_proxy_test_LDADD = ../src/libssm.la -lm
 
+## buffer_test
+read_buffer_test_SOURCES = read_buffer_test.cpp ssm-proxy-client.cpp dssm-utility.cpp
+read_buffer_test_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 # -fsanitize=address
+read_buffer_test_CXXFLAGS = $(read_proxy_test_CFLAGS)
+read_buffer_test_LDADD = ../src/libssm.la -lm
+
 ## ssm-transporter
 ssm_transporter_SOURCES = ssm-transporter.c
 ssm_transporter_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
