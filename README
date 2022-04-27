@@ -30,7 +30,7 @@ Distributed Streaming data Sharing Manager Readme
 DSSMのサンプルは utility/read_proxy_sample と utility/write_proxy_sample です.
 
 * サンプルプログラム Buffer用
-DSSMのサンプルは utility/read_buffer_sample です.
+バッファを用いた通信のサンプルは utility/read_buffer_sample です.
 
 * トラブルシューティング
 1. autotool関連のエラーがでる
