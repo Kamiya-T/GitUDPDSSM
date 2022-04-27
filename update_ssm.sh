@@ -2,7 +2,8 @@
 
 ## Makefileの更新からmake installまでの処理を行うスクリプト
 
-SSMSOURCE="$HOME/GitUDPDSSM"
+SSMSOURCE = $(cd $(dirname $0) && pwd)
+
 
 output_message() {
   printf "\n**************************\n"
