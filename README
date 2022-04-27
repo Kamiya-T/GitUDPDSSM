@@ -1,4 +1,4 @@
-Network Streaming data Sharing Manager Readme
+Distributed Streaming data Sharing Manager Readme
 
 * プログラム
 - SSM
@@ -15,6 +15,12 @@ Network Streaming data Sharing Manager Readme
  - ssm-proxy           coordinatorにネットワークを介して受け取ったデータを渡す
  - ssm-proxy-client    センサハンドラのデータをproxyに送信する
 
+* インストール方法
+1, 必須ライブラリのインストール
+   SSMに必要なライブラリと同じライブラリが必要なため、インストール(build-essential,autotools, libtool)
+2, update_ssm.shを実行
+   update_ssm.sh -fixed　を実行する build finishの表示が出たらインストール成功
+
 * 起動方法
 1, src/ssm-coordinatorを起動
 2, utility/ssm-proxyを起動
@@ -24,7 +30,7 @@ Network Streaming data Sharing Manager Readme
 DSSMのサンプルは utility/read_proxy_sample と utility/write_proxy_sample です.
 
 * サンプルプログラム Buffer用
-DSSMのサンプルは utility/read_proxy_sample と utility/write_proxy_sample です.
+DSSMのサンプルは utility/read_buffer_sample です.
 
 * トラブルシューティング
 1. autotool関連のエラーがでる
@@ -38,7 +44,3 @@ DSSMのサンプルは utility/read_proxy_sample と utility/write_proxy_sample 
 
 2. リンカがエラーを吐く
 32bitOSを使用しているときは, utility/Makefile.amのAM_CFLAGSに-L/lib64 -lpthreadを追加してください.
-
-3. メッセージをcoordinatorに送ろうとするとメモリ二重解放エラーが出る
-branchを32-64bitに切り替えて, 再度makeして実行してください.
-masterブランチは同じbitのOS間での通信にしか対応していません.
