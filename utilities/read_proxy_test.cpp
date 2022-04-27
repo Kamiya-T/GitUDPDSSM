@@ -3,6 +3,7 @@
  *	1秒に1回書き込まれるデータを取ってきて表示する．
  */
 
+
 // c++系
 #include <iostream>
 #include <iomanip>
@@ -29,10 +30,9 @@ void ctrlC(int aStatus)
 	gShutOff = true;
 }
 // Ctrl-C による正常終了を設定
-inline void setSigInt() { signal(SIGINT, ctrlC); }
+inline void setSigInt(){ signal(SIGINT, ctrlC); }
 
-int main()
-{
+int main() {
 	/*
 	 * 変数の宣言
 	 * PConnectorClient<data型, property型> 変数名(ssm登録名, ssm登録番号, 接続するproxy(server)のipAddress);
@@ -42,7 +42,6 @@ int main()
 	 * data型とproperty型は ./intSsm.h に定義
 	 * 指定しているIPはループバックアドレス(自分自身)
 	 */
-	//PConnectorClient<intSsm_k, doubleProperty_p> con(SNAME_INT, 1, "192.168.11.28");
 	PConnectorClient<intSsm_k, doubleProperty_p> con(SNAME_INT, 1);
 
 	// ssm関連の初期化
@@ -50,12 +49,12 @@ int main()
 
 	// 共有メモリにすでにある領域を開く
 	// 失敗するとfalseを返す
-	if (!con.open(SSM_EXCLUSIVE))
-	{
+	if (!con.open(SSM_READ)) {
 		// terminate()でssm-coordinatorとの接続を切断する
 		con.terminate();
 		return 1;
 	}
+
 	// 指定したプロパティを取得
 	con.getProperty();
 
@@ -64,32 +63,30 @@ int main()
 
 	// データ通信路を開く
 	// これをしないとデータを取得できない
-	if (!con.UDPcreateDataCon())
-	{
+	if (!con.createDataCon()) {
 		con.terminate();
 		return 1;
 	}
-	con.readyRingBuf(16);
+
 	// 安全に終了できるように設定
 	setSigInt();
 	double ttime;
-	while (!gShutOff)
-	{
+	while (!gShutOff) {
+
 		// 最新のデータを取得
-		if (con.readNewBuf())
-		{
-			cout << "=================" << endl;
-			cout << "NOW: " << con.time << endl;
-			cout << "NUM: " << con.data.num << endl;
+		if (con.readNew()) {
+			printf("\n");
+			printf("now -> %f\n", con.time);
+			cout << "NUM = " << con.data.num << endl;
 		}
 
 		// 1秒前のデータを取得
-		if (con.readTimeBuf(con.time - 1))
-		{
-			cout << "=================" << endl;
-			cout << "1 SEC OLD: " << con.time << endl;
-			cout << "OLDNUM: " << con.data.num << endl;
+		if (con.readTime(con.time - 1)) {
+			printf("\n");
+			printf("before 1 sec -> %f\n", con.time);
+			cout << "old NUM = " << con.data.num << endl;
 		}
+
 		sleepSSM(1);
 	}
 
