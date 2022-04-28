@@ -369,7 +369,7 @@ noinst_HEADERS = ssm-coordinator.h
 INCLUDES = $(all_includes) -I../include
 DEBUG_FLAG = -g 
 AM_CXXFLAGS = -Wno-error -Wno-c++11-extensions -Wno-stringop-truncation -std=c++11 $(AM_CFLAGS)
-AM_CFLAGS = -Wno-error -Wno-stringop-truncation $(DEBUG_FLAG) 
+AM_CFLAGS = -Wno-error $(DEBUG_FLAG) 
 lib_LTLIBRARIES = libssm.la
 libssm_la_SOURCES = libssm-time.c libssm-shm.c libssm.c
 libssm_la_CFLAGS = $(AM_CFLAGS) -Werror

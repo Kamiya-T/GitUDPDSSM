@@ -5,5 +5,5 @@ nobase_include_HEADERS = ssmtype/bumper.h ssmtype/ultrasonic.h
 
 #noinst_HEADERS = libssm.h
 
-CXXFLAGS = -Wno-error -Wno-c++11-extensions -std=c++11
-CFLAGS = -Wno-error
+AM_CXXFLAGS = -Wno-error -Wno-c++11-extensions -std=c++11
+AM_CFLAGS = -Wno-error
