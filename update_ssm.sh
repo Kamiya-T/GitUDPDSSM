@@ -44,7 +44,7 @@ fi
 
 
 
-sudo make CFLAGS="-Wno-error" CXXFLAGS="-Wno-error -Wno-c++11-extensions -std=c++11"
+sudo make
 
 ## makeの正常終了コードは0なので、それ以外のときはエラー処理
 answer=$?

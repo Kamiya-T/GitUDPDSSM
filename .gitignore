@@ -11,7 +11,6 @@
 config.log
 config.status
 libtool
-Makefile
 include/config.h
 include/stamp-h1
 autom4te.cache/output.0
@@ -66,6 +65,5 @@ autom4te.cache/traces.1
 src/.libs/libssm.so
 src/.libs/libssm.so.0
 src/.libs/libssm.so.0.5.1
-Makefile.in
 autom4te.cache/output.2
 autom4te.cache/traces.2
