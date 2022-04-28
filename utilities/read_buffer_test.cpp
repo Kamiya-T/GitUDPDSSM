@@ -65,6 +65,8 @@ int main()
 
 	// データ通信路を開く
 	// これをしないとデータを取得できない
+	// UDPcreateDataConでUDP通信によるデータ通信
+	// createDataConを用いることで従来のTCP通信によるデータ通信が行われる
 	if (!con.UDPcreateDataCon())
 	{
 		con.terminate();
