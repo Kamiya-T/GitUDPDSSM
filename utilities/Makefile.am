@@ -27,7 +27,7 @@ ssm_logger_LDADD = ../src/libssm.la -lm
 ## ssm-player
 ssm_player_SOURCES = ssm-player.cpp ssm-proxy-client.cpp dssm-utility.cpp
 ssm_player_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
-ssm_player_CXXFLAGS = $(ssm_advance_player_CFLAGS) -std=c++14
+ssm_player_CXXFLAGS = $(ssm_player_CFLAGS) -std=c++14
 ssm_player_LDADD = ../src/libssm.la -lm
 
 ## ssm-proxy
