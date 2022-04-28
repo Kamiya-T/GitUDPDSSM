@@ -18,8 +18,13 @@ Distributed Streaming data Sharing Manager Readme
 * インストール方法
 1, 必須ライブラリのインストール
    SSMに必要なライブラリと同じライブラリが必要なため、インストール(build-essential,autotools, libtool)
-2, update_ssm.shを実行
-   update_ssm.sh -fixed　を実行する build finishの表示が出たらインストール成功
+2, Configureを実行
+   ./configure
+3, makeを実行
+   make
+4, make installを実行
+   make install
+   
 
 * 起動方法
 1, src/ssm-coordinatorを起動
