@@ -7,7 +7,7 @@ AM_CFLAGS   = -Wall -lpthread -L/lib64 $(DEBUG_FLAG)
 AM_CXXFLAGS = $(AM_CFLAGS) -std=c++14
 
 bin_PROGRAMS = lsssm ssm-logger ssm-player ssm-proxy ssm-transporter ssm-date ssm-monitor ssm-graph
-noinst_PROGRAMS = read_proxy_test write_proxy_test
+noinst_PROGRAMS = read_proxy_test write_proxy_test read_buffer_test
 noinst_HEADERS = ssm-transporter.h printlog.hpp intSsm.h
 
 # shell scripts

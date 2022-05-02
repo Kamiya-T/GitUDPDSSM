@@ -22,12 +22,12 @@ using namespace std::chrono;
 #define FOR_DEBUG 0
 
 PConnector::PConnector() :
-		tbuf(nullptr), time(0.0), ipaddr("127.0.0.1") {
+		tbuf(nullptr), ipaddr("127.0.0.1"), time(0.0) {
 	initPConnector();
 }
 
 PConnector::PConnector(const char *streamName, int streamId, const char *ipAddress) :
-		tbuf(nullptr), time(0.0), ipaddr(ipAddress) {
+		tbuf(nullptr), ipaddr(ipAddress), time(0.0) {
 	initPConnector();
 	setStream(streamName, streamId);
 }
@@ -340,6 +340,7 @@ bool PConnector::UDPconnectToDataServer(const char* serverName, int port) {
 	fprintf(stderr, "Connecting to UDP Data server\n");
 	dsock = socket(AF_INET, SOCK_DGRAM, 0);
 	int flag = 1;
+	printf("%d",flag);
 	dserver.sin_family = AF_INET;
 	dserver.sin_port = htons(port);
 	dserver.sin_addr.s_addr = inet_addr(serverName);

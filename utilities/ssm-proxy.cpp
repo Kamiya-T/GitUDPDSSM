@@ -128,6 +128,7 @@ void DataCommunicator::handleData()
 {
 	char *p;
 	ssmTimeT time;
+	printf("%p",p);
 	while (true)
 	{
 		if (!receiveData())

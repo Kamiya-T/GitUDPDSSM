@@ -70,7 +70,8 @@ int main() {
 
 	// 安全に終了できるように設定
 	setSigInt();
-	double ttime;
+	double ttime = 0.0;
+	printf("%f",ttime);
 	while (!gShutOff) {
 
 		// 最新のデータを取得

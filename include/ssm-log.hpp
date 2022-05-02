@@ -248,6 +248,7 @@ public:
             mLogFile->read((char*)mFullData, sizeof(ssmTimeT) + mDataSize);
             mlTime = *(reinterpret_cast<double*>(mFullData));
             char *p = &((char*)mFullData)[8];		
+			printf("%p,%f",p,mlTime);
             return mLogFile->good(  );
 	}
 
@@ -286,7 +287,6 @@ public:
 		seek( ( time - mTime ) / mCycle );
 		// 現在位置を読み込み
 		readNext() || readBack(); // 一番最後だと読み込めないので１つ戻って読み込む
-		
 		// 条件を満たすまで探索
 		mLogFile->clear(  );
 		while( mTime < time && readNext(  ) );

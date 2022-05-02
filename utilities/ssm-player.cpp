@@ -149,6 +149,7 @@ public:
 		property = malloc( propertySize );
 		fulldata = malloc(dataSize + sizeof(ssmTimeT));
 		char *p = &((char*)fulldata)[8];
+		printf("%p",p);
 		
                 /*
 		cout << "\nprint memory (ssm-player)" << endl;

@@ -25,7 +25,7 @@ private:
 		ssmTimeT time;
 		T ssmRawData;
 	};
-	void initApi(char *ipAddr)
+	void initApi(const char *ipAddr)
 	{
 		fulldata = malloc(sizeof(T) + sizeof(ssmTimeT)); // メモリの開放はどうする？ -> とりあえずデストラクタで対応
 		wdata = (T *)&(((char *)fulldata)[8]);
@@ -54,7 +54,7 @@ public:
 		initApi();
 	}
 	// 委譲
-	PConnectorClient(const char *streamName, int streamId = 0, char *ipAddr = "127.0.0.1") : PConnector::PConnector(streamName, streamId)
+	PConnectorClient(const char *streamName, int streamId = 0, const char *ipAddr = "127.0.0.1") : PConnector::PConnector(streamName, streamId)
 	{
 		initApi(ipAddr);
 	}
@@ -77,6 +77,7 @@ public:
 		polldata.fd = dsock;
 		std::vector<char> recvBuf(sizeof(T) + sizeof(ssmTimeT) + sizeof(SSM_tid));
 		ssmData ssmRecvData;
+		printf("%d",cnt);
 		while (loop)
 		{
 			switch (poll(&polldata, 1, 10))
