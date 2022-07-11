@@ -6,7 +6,7 @@ DEBUG_FLAG = -g
 AM_CFLAGS   = -Wall -lpthread -L/lib64 $(DEBUG_FLAG)
 AM_CXXFLAGS = $(AM_CFLAGS) -std=c++14
 
-bin_PROGRAMS = lsssm ssm-logger ssm-player ssm-proxy ssm-transporter ssm-date ssm-monitor ssm-graph
+bin_PROGRAMS = lsssm ssm-logger ssm-player ssm-proxy ssm-transporter ssm-date ssm-monitor ssm-graph ssm-remote
 noinst_PROGRAMS = read_proxy_test write_proxy_test read_buffer_test
 noinst_HEADERS = ssm-transporter.h printlog.hpp intSsm.h
 
@@ -32,10 +32,15 @@ ssm_player_LDADD = ../src/libssm.la -lm
 
 ## ssm-proxy
 ssm_proxy_SOURCES = ssm-proxy.cpp dssm-utility.cpp
-#ssm_proxy_SOURCES = ssm-proxy.cpp test.cpp
 ssm_proxy_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 # -fsanitize=address
 ssm_proxy_CXXFLAGS = $(ssm_proxy_CFLAGS) -std=c++14
 ssm_proxy_LDADD = ../src/libssm.la -lm
+
+## ssm-remote
+ssm_remote_SOURCES = ssm-remote.cpp
+ssm_remote_CFLAGS = $(AM_CFLAGS) -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 # -fsanitize=address
+ssm_remote_CXXFLAGS = $(ssm_proxy_CFLAGS) -std=c++14
+ssm_remote_LDADD = ../src/libssm.la -lm
 
 ## read_test
 read_proxy_test_SOURCES = read_proxy_test.cpp ssm-proxy-client.cpp dssm-utility.cpp
