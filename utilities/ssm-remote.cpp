@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <signal.h>
 #include <sys/socket.h>
 
 #include <netinet/tcp.h>
@@ -31,6 +32,7 @@ bool RemoteServer::open()
     this->server.wait_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     int flag = 1;
     int ret = setsockopt(this->server.wait_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&flag, sizeof(flag));
+    ret = setsockopt(this->server.wait_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&flag, sizeof(flag));
     if (ret == -1)
     {
         fprintf(stderr, "Remote Server open failed");
@@ -156,7 +158,6 @@ int RemoteServer::sendMessage(Message* msg) {
 }
 
 
-
 void RemoteServer::handleRequest() {
     Message msg;
     int buf_len = sizeof(Message);
@@ -201,11 +202,38 @@ END_PROC:
     }
 }
 
+void RemoteServer::disconnect() {
+    client_close();
+    server_close();
+}
+
+
+static RemoteServer *rserver = nullptr;
+
+static void catchSignal(int signo) {
+    if (rserver) {
+        std::cout << "disconnect" << std::endl;
+        rserver->disconnect();
+    }
+    exit(1);
+}
+
+static void setSigHandler(RemoteServer *_rserver) {
+    rserver = _rserver;
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    act.sa_handler = catchSignal;
+    sigaction(SIGINT, &act, NULL);
+}
+
 int main(void)
 {
     std::cout << "Remote Server Starts" << std::endl;
     RemoteServer rserver;
     rserver.init();
+    setSigHandler(&rserver);
     rserver.start();    
 
     return 0;
