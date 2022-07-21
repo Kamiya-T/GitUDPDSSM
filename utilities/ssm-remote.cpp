@@ -80,9 +80,23 @@ bool RemoteServer::wait()
     return true;
 }
 
+// do anything as you like
+bool RemoteServer::setup() {    
+    return true;
+}
+
 bool RemoteServer::start()
 {
     while (this->wait()) {
+        if (setup()) {
+            Message msg;
+            msg.type = AC_CONNECT;
+            sendMessage(&msg);
+            std::cout << "send ACK_CONNECT" << std::endl;
+        } else {
+            this->client_close(); 
+            break;
+        }
         std::cout << "start handle request" << std::endl;
         this->handleRequest();
         this->client_close(); 

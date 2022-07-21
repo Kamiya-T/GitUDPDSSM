@@ -11,6 +11,7 @@ enum {
     RM_START = 1,    
     RM_STOP = 2,
     RM_DISCONNECT = 3,
+    AC_CONNECT = 10,
     AC_START = 11,
     AC_STOP = 12,
     AC_DISCONNECT = 13,    
@@ -37,14 +38,18 @@ private:
     int receiveMessage(Message *msg, uint8_t *buf, int msg_len);
     int sendMessage(Message *msg);
 
+    bool setup();
     void handleRequest();
     bool client_close();
-    bool server_close();    
+    bool server_close();
 
 public:
     RemoteServer();
     ~RemoteServer();
     bool init();
-    bool start();
+    bool start();    
+    void disconnect();
+    
 };
+
 #endif
