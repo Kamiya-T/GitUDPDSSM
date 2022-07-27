@@ -11,10 +11,14 @@ enum {
     RM_START = 1,    
     RM_STOP = 2,
     RM_DISCONNECT = 3,
+    RM_STARTRECORD = 4,
+    RM_STOPRECORD = 5,
     AC_CONNECT = 10,
     AC_START = 11,
     AC_STOP = 12,
-    AC_DISCONNECT = 13,    
+    AC_DISCONNECT = 13,
+    AC_STARTRECORD = 14,
+    AC_STOPRECORD = 15,
 };
 
 struct Message {

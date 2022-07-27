@@ -81,7 +81,8 @@ bool RemoteServer::wait()
 }
 
 // do anything as you like
-bool RemoteServer::setup() {    
+bool RemoteServer::setup() {
+    sleep(5);
     return true;
 }
 
@@ -202,6 +203,19 @@ void RemoteServer::handleRequest() {
                 goto END_PROC;      
                 break;
             }
+            case RM_STARTRECORD: {
+                printf("RM_STARTRECORD\n");
+                msg.type = AC_STARTRECORD;
+                sendMessage(&msg);
+                break;
+            }
+            case RM_STOPRECORD: {
+                printf("RM_STOPRECORD\n");
+                msg.type = AC_STOPRECORD;
+                sendMessage(&msg);
+                break;
+            }
+            
             default: {
                 fprintf(stderr, "unknown message type\n");
                 break;
