@@ -82,7 +82,28 @@ bool RemoteServer::wait()
 
 // do anything as you like
 bool RemoteServer::setup() {
-    sleep(5);
+    sleep(3);
+    return true;
+}
+bool RemoteServer::run() {
+    sleep(3);
+    return true;
+}
+
+bool RemoteServer::stop() {
+    sleep(3);
+    return true;
+}
+bool RemoteServer::startrecord() {
+    sleep(3);
+    return true;
+}
+bool RemoteServer::stoprecord() {
+    sleep(3);
+    return true;
+}
+bool RemoteServer::unsetup() {
+    sleep(3);
     return true;
 }
 
@@ -145,7 +166,7 @@ void RemoteServer::deserializeMessage(Message* msg, uint8_t *buf) {
 }
 
 int RemoteServer::receiveMessage(Message *msg, uint8_t *buf, int buf_len) {
-    std::cout << "start receive" << std::endl;
+    std::cout << "begin receive" << std::endl;
     int len = recv(this->client.data_socket, buf, buf_len, 0);
     std::cout << "received" << std::endl;
     if (len > 0) {        
@@ -186,18 +207,21 @@ void RemoteServer::handleRequest() {
         switch (msg.type) {
             case RM_START: {
                 printf("RM_START\n");
+                run();
                 msg.type = AC_START;
                 sendMessage(&msg);
                 break;
             }
             case RM_STOP: {
                 printf("RM_STOP\n");
+                stop();
                 msg.type = AC_STOP;
                 sendMessage(&msg);
                 break;
             }
             case RM_DISCONNECT: {
                 printf("RM_DISCONNECT\n");
+                unsetup();
                 msg.type = AC_DISCONNECT;
                 sendMessage(&msg);
                 goto END_PROC;      
@@ -205,12 +229,14 @@ void RemoteServer::handleRequest() {
             }
             case RM_STARTRECORD: {
                 printf("RM_STARTRECORD\n");
+                startrecord();
                 msg.type = AC_STARTRECORD;
                 sendMessage(&msg);
                 break;
             }
             case RM_STOPRECORD: {
                 printf("RM_STOPRECORD\n");
+                stoprecord();
                 msg.type = AC_STOPRECORD;
                 sendMessage(&msg);
                 break;

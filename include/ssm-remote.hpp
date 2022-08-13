@@ -43,6 +43,13 @@ private:
     int sendMessage(Message *msg);
 
     bool setup();
+    bool run();
+    bool stop();
+    bool startrecord();
+    bool stoprecord();
+    bool unsetup();
+
+
     void handleRequest();
     bool client_close();
     bool server_close();
