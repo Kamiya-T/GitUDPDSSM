@@ -6,6 +6,8 @@
 #define RMOTE_PORT 10800
 #define RMOTE_IP 0x00000000UL
 
+#define RMOTE_IPORT 10801
+
 enum {
     RM_NULL = 0,
     RM_START = 1,    
@@ -32,6 +34,9 @@ private:
     TCPSERVER_INFO server;
     TCPCLIENT_INFO client;
 
+    struct sockaddr_in iserver;
+    int isock; // descripter for socket
+
     bool open();
     bool wait();
     uint16_t readShort(uint8_t *buf);
@@ -50,6 +55,10 @@ private:
     bool unsetup();
 
 
+    bool openMsgStream();
+    bool closeMsgStream();
+    void sendError(uint8_t* buf, size_t len);
+
     void handleRequest();
     bool client_close();
     bool server_close();
@@ -60,6 +69,8 @@ public:
     bool init();
     bool start();    
     void disconnect();
+
+    //bool openMsgStream();
     
 };
 

@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <sys/socket.h>
 
+#include <arpa/inet.h>
 #include <netinet/tcp.h>
 
 #include "ssm-remote.hpp"
@@ -18,6 +19,11 @@ RemoteServer::~RemoteServer()
 
 bool RemoteServer::init()
 {
+    isock = -1;
+
+    memset(&this->client, 0, sizeof(this->client));
+    this->client.data_socket = -1;
+
     memset(&this->server, 0, sizeof(this->server));
     this->server.wait_socket = -1;
     this->server.server_addr.sin_family = AF_INET;
@@ -116,16 +122,19 @@ bool RemoteServer::start()
             sendMessage(&msg);
             std::cout << "send ACK_CONNECT" << std::endl;
         } else {
-            this->client_close(); 
+            client_close(); 
             break;
         }
         std::cout << "start handle request" << std::endl;
+        openMsgStream(); // open connection to client
         this->handleRequest();
         this->client_close(); 
+        closeMsgStream(); // close connection to client
     }
-    this->server_close();
+    server_close();
     return true;
 }
+
 
 bool RemoteServer::client_close() {
     if (this->client.data_socket != -1) {
@@ -139,6 +148,14 @@ bool RemoteServer::server_close() {
     if (this->server.wait_socket != -1) {
         close(this->server.wait_socket);
         this->server.wait_socket = -1;
+    }
+    return true;
+}
+
+bool RemoteServer::closeMsgStream() {
+    if (this->isock != -1) {
+        close(this->isock);
+        this->isock = -1;
     }
     return true;
 }
@@ -193,6 +210,41 @@ int RemoteServer::sendMessage(Message* msg) {
     return len;
 }
 
+bool RemoteServer::openMsgStream() {
+    std::cout << "open msg stream" << std::endl;
+    isock = socket(AF_INET, SOCK_STREAM, 0);
+
+    int flag = 1;
+    int ret = setsockopt(isock, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(flag));
+    if (ret == -1) {
+        perror("client stream setsockopt\n");
+        exit(1);
+    }
+
+    iserver.sin_family = AF_INET;
+    iserver.sin_port = htons(RMOTE_IPORT);
+    iserver.sin_addr.s_addr = inet_addr("127.0.0.1");
+    
+    if (connect(isock, (struct sockaddr *) &iserver, sizeof(iserver))) {
+        fprintf(stderr, "openMsgStream error\n");
+        return false;
+    }
+        
+    return true;    
+}
+
+void RemoteServer::sendError(uint8_t* buf, size_t len) {
+    uint8_t* msgbuf = (uint8_t*)malloc(len + 2);
+    msgbuf[0] = (len >> 8) & 0xff;
+    msgbuf[1] = len & 0xff;
+    memcpy(&msgbuf[2], buf, len);
+    if (send(isock, msgbuf, len+2, 0) == -1) {
+        fprintf(stderr, "error in sendError");        
+    }
+
+    free(msgbuf);
+}
+
 
 void RemoteServer::handleRequest() {
     Message msg;
@@ -206,7 +258,7 @@ void RemoteServer::handleRequest() {
 
         switch (msg.type) {
             case RM_START: {
-                printf("RM_START\n");
+                printf("RM_START\n");                
                 run();
                 msg.type = AC_START;
                 sendMessage(&msg);
@@ -215,6 +267,7 @@ void RemoteServer::handleRequest() {
             case RM_STOP: {
                 printf("RM_STOP\n");
                 stop();
+                sendError((uint8_t*)"Hello", 5); // for debug
                 msg.type = AC_STOP;
                 sendMessage(&msg);
                 break;
@@ -257,6 +310,7 @@ END_PROC:
 }
 
 void RemoteServer::disconnect() {
+    closeMsgStream();
     client_close();
     server_close();
 }
@@ -288,6 +342,7 @@ int main(void)
     RemoteServer rserver;
     rserver.init();
     setSigHandler(&rserver);
+    //rserver.openMsgStream(); for test
     rserver.start();    
 
     return 0;
