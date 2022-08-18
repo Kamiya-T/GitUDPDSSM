@@ -57,7 +57,7 @@ private:
 
     bool openMsgStream();
     bool closeMsgStream();
-    void sendError(uint8_t* buf, size_t len);
+    void sendError(uint8_t* buf, size_t len, uint8_t color);
 
     void handleRequest();
     bool client_close();

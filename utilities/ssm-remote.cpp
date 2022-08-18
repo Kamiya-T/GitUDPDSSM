@@ -233,12 +233,13 @@ bool RemoteServer::openMsgStream() {
     return true;    
 }
 
-void RemoteServer::sendError(uint8_t* buf, size_t len) {
-    uint8_t* msgbuf = (uint8_t*)malloc(len + 2);
+void RemoteServer::sendError(uint8_t* buf, size_t len, uint8_t color) {
+    uint8_t* msgbuf = (uint8_t*)malloc(len + 3);
     msgbuf[0] = (len >> 8) & 0xff;
     msgbuf[1] = len & 0xff;
-    memcpy(&msgbuf[2], buf, len);
-    if (send(isock, msgbuf, len+2, 0) == -1) {
+    msgbuf[2] = color;
+    memcpy(&msgbuf[3], buf, len);
+    if (send(isock, msgbuf, len+3, 0) == -1) {
         fprintf(stderr, "error in sendError");        
     }
 
@@ -267,7 +268,7 @@ void RemoteServer::handleRequest() {
             case RM_STOP: {
                 printf("RM_STOP\n");
                 stop();
-                sendError((uint8_t*)"Hello", 5); // for debug
+                sendError((uint8_t*)"Hello", 5, 0x01); // for debug
                 msg.type = AC_STOP;
                 sendMessage(&msg);
                 break;
